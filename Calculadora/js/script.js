@@ -1,12 +1,18 @@
 class Calculadora {
-    constructor(resultador) {
+    constructor(resultador, calcOpera) {
         this.resultador = resultador;
+        this.calcOpera = calcOpera;
         this.valorAtual = '';
         this.valorAnterior = '';
         this.operacao = undefined;
+        this.finalizado = false;
     }
 
     adicionarNumero(numero) {
+        if (this.finalizado) {
+            this.limpar(); 
+            this.finalizado = false;
+        }
         this.valorAtual += numero;
         this.atualizarDisplay();
     }
@@ -19,6 +25,7 @@ class Calculadora {
         this.operacao = operacao;
         this.valorAnterior = this.valorAtual;
         this.valorAtual = '';
+        this.atualizarDisplay2();
     }
 
     calcular() {
@@ -27,15 +34,23 @@ class Calculadora {
         const atual = parseFloat(this.valorAtual);
         if (isNaN(anterior) || isNaN(atual)) return;
 
+        const valorAnteriorTemp = this.valorAnterior;
+        const valorAtualTemp = this.valorAtual;
+        const operacaoTemp = this.operacao;
+
+       
         switch (this.operacao) {
             case '+':
                 resultado = anterior + atual;
+            
                 break;
             case '-':
                 resultado = anterior - atual;
+                
                 break;
             case '*':
                 resultado = anterior * atual;
+                
                 break;
             case '/':
                 resultado = anterior / atual;
@@ -44,9 +59,12 @@ class Calculadora {
                 return;
         }
         this.valorAtual = resultado.toString();
+        this.calcOpera.textContent = `${valorAnteriorTemp} ${operacaoTemp} ${valorAtualTemp} =`;
         this.operacao = undefined;
         this.valorAnterior = '';
-        this.atualizarDisplay(); 
+        this.atualizarDisplay();
+        this.finalizado = true; 
+        
     }
 
     limpar() {
@@ -54,11 +72,13 @@ class Calculadora {
         this.valorAnterior = '';
         this.operacao = undefined;
         this.atualizarDisplay();
+        this.atualizarDisplay2()
     }
 
     apagarumnumero(){
         this.valorAtual = this.valorAtual.slice(0,-1); 
         this.atualizarDisplay();
+        this.atualizarDisplay2()
 
     }
     
@@ -66,9 +86,14 @@ class Calculadora {
     atualizarDisplay() {
         this.resultador.textContent = this.valorAtual || '0';
     }
+
+    atualizarDisplay2(){
+        this.calcOpera.textContent = `${this.valorAnterior} ${this.operacao || ''}`;
+        
+    }
 }
 
-
+const calcOpera = document.querySelector('.calcOpera');
 const resultado = document.getElementById('resultado');
 const btnNumero = document.querySelectorAll('.numeros');
 const btnOperadores = document.querySelectorAll('.botao-calculo');
@@ -78,7 +103,7 @@ const btnApagar = document.getElementById('btnApagar');
 
 
 
-const calculadora = new Calculadora(resultado);
+const calculadora = new Calculadora(resultado, calcOpera);
 
 
 btnNumero.forEach(botao => {
@@ -92,13 +117,16 @@ btnOperadores.forEach(botao => {
     if (botao !== btnIgual) {
         botao.addEventListener('click', () => {
             calculadora.escolherOperacao(botao.dataset.op);
+            calculadora.atualizarDisplay2();
         });
     }
+    
 });
 
 
 btnIgual.addEventListener('click', () => {
     calculadora.calcular();
+    
 });
 
 btnLimpar.addEventListener('click', () => {

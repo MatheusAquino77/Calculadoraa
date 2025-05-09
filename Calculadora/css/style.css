@@ -26,22 +26,24 @@ h1{
 
 .resultado{
     height: 100px;
-    color: white;
-    background-color: black;
     
 }
 
 .texto{
     text-align: right;
-    vertical-align: bottom;
-    color: white;
+    font-size: 35px;
+    font-family: Helvetica;
+    color: black;
+    padding-right: 10px;
+    font-weight: bolder;
+    margin-top: 0px;
 }
 .botoes{
     height: 400px;
     display: flex;
     flex-direction: column;
-    gap: 5px; /* espaço entre as linhas de botões */
-    padding: 7px; /* espaço interno */
+    gap: 5px; 
+    padding: 7px; 
     box-sizing: border-box;
 }
 
@@ -72,4 +74,16 @@ button:hover {
     color: rgb(0, 0, 0);
     border-color: rgb(100, 100, 255);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2)
+}
+
+.calcOpera{
+    height: 20%;
+    text-align: right;
+    padding-top: 30px;
+    padding-right: 5px;
+    margin-bottom: 10px;
+    padding-bottom: 0px;
+    font-family: Helvetica;
+    font-weight: bolder;
+
 }
