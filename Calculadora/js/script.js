@@ -19,9 +19,12 @@ class Calculadora {
 
     escolherOperacao(operacao) {
         if (this.valorAtual === '') return;
-        if (this.valorAnterior !== '') {
+        if (this.finalizado) {
+            this.finalizado = false
+        }else if (this.valorAnterior !== '') {
             this.calcular();
         }
+        
         this.operacao = operacao;
         this.valorAnterior = this.valorAtual;
         this.valorAtual = '';
