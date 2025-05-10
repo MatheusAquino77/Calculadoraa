@@ -1,100 +1,102 @@
-class Calculadora {
-    constructor(resultador, calcOpera) {
-        this.resultador = resultador;
-        this.calcOpera = calcOpera;
+class Calculadora { 
+    constructor(resultador, calcOpera) { 
+        this.resultador = resultador;  // Display de resultado
+        this.calcOpera = calcOpera;   // Display da operação
         this.valorAtual = '';
-        this.valorAnterior = '';
-        this.operacao = undefined;
-        this.finalizado = false;
+        this.valorAnterior = ''; 
+        this.operacao = undefined; 
+        this.finalizado = false; 
     }
 
+     // Adiciona um número ao valor atual
     adicionarNumero(numero) {
-        if (this.finalizado) {
-            this.limpar(); 
-            this.finalizado = false;
+        if (this.finalizado) {  
+            this.limpar();  
+            this.finalizado = false; 
         }
         this.valorAtual += numero;
-        this.atualizarDisplay();
+        this.atualizarDisplay(); 
     }
 
+    // Define a operação matemática selecionada
     escolherOperacao(operacao) {
-        if (this.valorAtual === '') return;
-        if (this.finalizado) {
-            this.finalizado = false
-        }else if (this.valorAnterior !== '') {
-            this.calcular();
+        if (this.valorAtual === '') return;  
+        if (this.finalizado) { 
+            this.finalizado = false 
+        }else if (this.valorAnterior !== '') { 
+            this.calcular(); 
         }
         
-        this.operacao = operacao;
-        this.valorAnterior = this.valorAtual;
-        this.valorAtual = '';
-        this.atualizarDisplay2();
+        this.operacao = operacao; 
+        this.valorAnterior = this.valorAtual; 
+        this.valorAtual = ''; 
+        this.atualizarDisplay2(); 
     }
 
-    calcular() {
-        let resultado;
-        const anterior = parseFloat(this.valorAnterior);
-        const atual = parseFloat(this.valorAtual);
-        if (isNaN(anterior) || isNaN(atual)) return;
+    // Realiza o cálculo com base na operação selecionada
+    calcular() { 
+        let resultado; 
+        const anterior = parseFloat(this.valorAnterior); 
+        const atual = parseFloat(this.valorAtual); 
+        if (isNaN(anterior) || isNaN(atual)) return; 
 
-        const valorAnteriorTemp = this.valorAnterior;
+        const valorAnteriorTemp = this.valorAnterior;  
         const valorAtualTemp = this.valorAtual;
-        const operacaoTemp = this.operacao;
-
+        const operacaoTemp = this.operacao; 
        
-        switch (this.operacao) {
-            case '+':
-                resultado = anterior + atual;
-            
-                break;
+        switch (this.operacao) { 
+            case '+': 
+                resultado = anterior + atual; 
+                break; 
             case '-':
-                resultado = anterior - atual;
+                resultado = anterior - atual; 
                 
-                break;
+                break; 
             case '*':
-                resultado = anterior * atual;
+                resultado = anterior * atual; 
                 
-                break;
-            case '/':
-                resultado = anterior / atual;
-                break;
-            default:
-                return;
+                break; 
+            case '/': 
+                resultado = anterior / atual; 
+                break; 
+            default: 
+                return; 
         }
-        this.valorAtual = resultado.toString();
+        this.valorAtual = resultado.toString(); 
         this.calcOpera.textContent = `${valorAnteriorTemp} ${operacaoTemp} ${valorAtualTemp} =`;
-        this.operacao = undefined;
-        this.valorAnterior = '';
-        this.atualizarDisplay();
+        this.operacao = undefined; 
+        this.valorAnterior = '';  
+        this.atualizarDisplay(); 
         this.finalizado = true; 
         
     }
 
-    limpar() {
-        this.valorAtual = '';
-        this.valorAnterior = '';
-        this.operacao = undefined;
-        this.atualizarDisplay();
-        this.atualizarDisplay2()
+    // Limpa todos os valores da calculadora
+    limpar() { 
+        this.valorAtual = ''; 
+        this.valorAnterior = ''; 
+        this.operacao = undefined; 
+        this.atualizarDisplay(); 
+        this.atualizarDisplay2() 
     }
 
-    apagarumnumero(){
-        this.valorAtual = this.valorAtual.slice(0,-1); 
-        this.atualizarDisplay();
-        this.atualizarDisplay2()
-
+    // Remove o último dígito do valor atual
+    apagarumnumero(){ 
+        this.valorAtual = this.valorAtual.slice(0,-1);  
+        this.atualizarDisplay(); 
+        this.atualizarDisplay2() 
     }
     
-
-    atualizarDisplay() {
-        this.resultador.textContent = this.valorAtual || '0';
+    // Atualiza o display do resultado
+    atualizarDisplay() { 
+        this.resultador.textContent = this.valorAtual || '0'; 
     }
-
-    atualizarDisplay2(){
-        this.calcOpera.textContent = `${this.valorAnterior} ${this.operacao || ''}`;
-        
+    // Atualiza o display da operação
+    atualizarDisplay2(){ 
+        this.calcOpera.textContent = `${this.valorAnterior} ${this.operacao || ''}`; 
     }
 }
+
 
 const calcOpera = document.querySelector('.calcOpera');
 const resultado = document.getElementById('resultado');
