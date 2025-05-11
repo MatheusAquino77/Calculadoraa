@@ -10,11 +10,19 @@ class Calculadora {
 
      // Adiciona um número ao valor atual
     adicionarNumero(numero) {
+        if (numero === '.' && this.valorAtual.includes('.')) return;
+
         if (this.finalizado) {  
             this.limpar();  
             this.finalizado = false; 
         }
-        this.valorAtual += numero;
+        if (numero === '.' && (this.valorAtual === '' || this.valorAtual === '0')) {
+            this.valorAtual = '0.';
+            
+        } else {
+            this.valorAtual += numero;
+        }
+
         this.atualizarDisplay(); 
     }
 
@@ -25,6 +33,10 @@ class Calculadora {
             this.finalizado = false 
         }else if (this.valorAnterior !== '') { 
             this.calcular(); 
+        }
+        if (this.valorAtual === '0.'){
+            this.valorAtual = '0';
+            this.atualizarDisplay();
         }
         
         this.operacao = operacao; 
@@ -68,6 +80,7 @@ class Calculadora {
         this.valorAnterior = '';  
         this.atualizarDisplay(); 
         this.finalizado = true; 
+        console.log(resultado);
         
     }
 
@@ -82,9 +95,15 @@ class Calculadora {
 
     // Remove o último dígito do valor atual
     apagarumnumero(){ 
-        this.valorAtual = this.valorAtual.slice(0,-1);  
-        this.atualizarDisplay(); 
-        this.atualizarDisplay2() 
+        if(this.finalizado){
+            this.limpar();
+            this.finalizado = false;
+        }else{
+            this.valorAtual = this.valorAtual.slice(0,-1);
+            this.atualizarDisplay();
+            this.atualizarDisplay2()
+        }
+    
     }
     
     // Atualiza o display do resultado
@@ -109,10 +128,10 @@ const btnApagar = document.getElementById('btnApagar');
 
 
 const calculadora = new Calculadora(resultado, calcOpera);
-
+console.log(btnNumero);
 
 btnNumero.forEach(botao => {
-    botao.addEventListener('click', () => {
+    botao.addEventListener('click', () => { 
         calculadora.adicionarNumero(botao.dataset.num);
     });
 });
