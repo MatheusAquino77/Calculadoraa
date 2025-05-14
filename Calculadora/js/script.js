@@ -58,7 +58,8 @@ class Calculadora {
        
         switch (this.operacao) { 
             case '+': 
-                resultado = anterior + atual; 
+                resultado = anterior + atual;
+               
                 break; 
             case '-':
                 resultado = anterior - atual; 
@@ -70,17 +71,22 @@ class Calculadora {
                 break; 
             case '/': 
                 resultado = anterior / atual; 
+                
                 break; 
             default: 
                 return; 
         }
+        if(String(resultado).includes('.')){
+            resultado = Number(resultado).toFixed(2);
+        }
+    
         this.valorAtual = resultado.toString(); 
         this.calcOpera.textContent = `${valorAnteriorTemp} ${operacaoTemp} ${valorAtualTemp} =`;
         this.operacao = undefined; 
         this.valorAnterior = '';  
         this.atualizarDisplay(); 
         this.finalizado = true; 
-        console.log(resultado);
+        
         
     }
 
@@ -124,6 +130,7 @@ const btnOperadores = document.querySelectorAll('.botao-calculo');
 const btnIgual = document.getElementById('btnIgual');
 const btnLimpar = document.getElementById('btnLimpar');
 const btnApagar = document.getElementById('btnApagar');
+const btnCE = document.getElementById('btnCE');
 
 
 
@@ -158,4 +165,7 @@ btnLimpar.addEventListener('click', () => {
 });
 btnApagar.addEventListener('click', () => {
     calculadora.apagarumnumero();
+});
+btnCE.addEventListener('click', () => {
+    calculadora.limpar();
 });
